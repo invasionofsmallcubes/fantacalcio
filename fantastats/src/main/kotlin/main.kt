@@ -2,10 +2,28 @@ import org.jsoup.Jsoup
 import java.io.File
 import java.lang.StringBuilder
 
-fun main(args : Array<String>) {
+fun main(args: Array<String>) {
 
+    stats()
+    quotations()
+
+    println("DONE")
+}
+
+private fun quotations() {
+    val years = arrayOf("2019-2020")
+    val headers = arrayListOf(
+        "R",
+        "S",
+        "G",
+        "Q"
+    )
+    val url = "https://www.mondofantacalcio.com/quotazioni-fantacalcio/%s/0-giornata/"
+    parse(years, url, headers)
+}
+
+private fun stats() {
     val years = arrayOf("2018-2019", "2017-2018", "2016-2017", "2015-2016")
-
     val headers = arrayListOf(
         "R",
         "S",
@@ -23,11 +41,19 @@ fun main(args : Array<String>) {
         "RS",
         "RP"
     )
+    val url = "https://www.mondofantacalcio.com/statistiche-fantacalcio/%s/"
+    parse(years, url, headers)
+}
 
+private fun parse(
+    years: Array<String>,
+    url: String,
+    headers: ArrayList<String>
+) {
     for (year in years) {
 
-        val doc = Jsoup.connect("https://www.mondofantacalcio.com/statistiche-fantacalcio/$year/").get()
-        println("Retrieving ${doc.title()} ..." )
+        val doc = Jsoup.connect(String.format(url, year)).get()
+        println("Retrieving ${doc.title()} ...")
 
         val csvToSave = StringBuilder()
 
@@ -37,7 +63,7 @@ fun main(args : Array<String>) {
         val players = doc.select("table tbody tr")
         for (player in players) {
             for (i in 0 until player.children().size) {
-                if (i != 14) {
+                if (i != headers.size - 1) {
                     csvToSave.append("${player.child(i).text()};")
                 } else {
                     csvToSave.append("${player.child(i).text()}\n")
@@ -49,6 +75,4 @@ fun main(args : Array<String>) {
             out.print(csvToSave.toString())
         }
     }
-
-    println("DONE")
 }
