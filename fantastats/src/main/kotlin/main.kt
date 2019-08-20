@@ -15,7 +15,7 @@ private fun quotations() {
     val headers = arrayListOf(
         "R",
         "S",
-        "G",
+        "Gi",
         "Q"
     )
     val url = "https://www.mondofantacalcio.com/quotazioni-fantacalcio/%s/0-giornata/"
@@ -27,7 +27,7 @@ private fun stats() {
     val headers = arrayListOf(
         "R",
         "S",
-        "G",
+        "Gi",
         "IAM",
         "P",
         "MV",
