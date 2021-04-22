@@ -1,4 +1,4 @@
-pyspark==2.4.3
+pyspark
 nbserverproxy
-py4j==0.10.7
+py4j
 pandas
